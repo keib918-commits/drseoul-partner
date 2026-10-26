@@ -85,7 +85,7 @@ td.num,th.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-n
     <div class="kpi"><div class="v neg" id="kLate">0</div><div class="k">기한 초과</div></div>
     <div class="kpi"><div class="v" id="kTransit">0</div><div class="k">배송 중</div></div>
     <div class="kpi"><div class="v amb" id="kInflow">0</div><div class="k">이번 달 국내 유입 주문 · <span id="kInflowSales"></span></div></div>
-    <div class="kpi"><div class="v" id="kMonthPay">₩0</div><div class="k">이번 달 해외 공급가 예정 · 국내 수수료 <span id="kMonthFee"></span></div></div>
+    <div class="kpi"><div class="v" id="kMonthPay">₩0</div><div class="k">이번 달 해외 정산금 예정 · 국내 수수료 <span id="kMonthFee"></span></div></div>
   </div>
   <div class="grid2" style="margin-top:14px">
     <div class="card"><h3>해외 발송 대기</h3><ul class="list" id="dashWait"></ul><div class="note">라벨은 주문 접수와 동시에 발급됩니다. 포장 뒤 '라벨'로 출력하고 운송장 번호를 입력하면 발송 완료로 바뀝니다.</div></div>
@@ -117,17 +117,17 @@ td.num,th.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-n
 <section class="view" id="view-stock">
   <h1>재고</h1>
   <p class="sub">가용 수량을 입력하면 저희 쇼피 리스팅 재고에 동기화됩니다. 0이 되면 판매가 자동으로 멈춰 주문 취소가 생기지 않습니다.</p>
-  <div class="tbl"><table><thead><tr><th>SKU</th><th>상품</th><th class="num">해외 판매가</th><th class="num">공급가</th><th class="num">가용 수량</th><th>판매 상태</th><th>마지막 동기화</th><th></th></tr></thead><tbody id="stockRows"></tbody></table></div>
-  <div class="note">공급가는 해외 판매가에서 쇼피 몫(약 25%)과 닥터서울 수수료(30%)를 뺀 예시입니다(₱1 ≈ ₩22). 실제 공급가와 환율 기준은 계약서로 정합니다.</div>
+  <div class="tbl"><table><thead><tr><th>SKU</th><th>상품</th><th class="num">해외 판매가</th><th class="num">정산금</th><th class="num">가용 수량</th><th>판매 상태</th><th>마지막 동기화</th><th></th></tr></thead><tbody id="stockRows"></tbody></table></div>
+  <div class="note">정산금는 해외 판매가에서 쇼피 몫(약 25%)과 닥터서울 수수료(30%)를 뺀 예시입니다(₱1 ≈ ₩22). 실제 정산금와 환율 기준은 계약서로 정합니다.</div>
 </section>
 
 <section class="view" id="view-settle">
   <h1>정산</h1>
-  <p class="sub">매월 말 마감, 익월 10일 정산서 발행, 익월 20일 지급. 해외는 저희가 공급가를 지급하고, 국내는 귀사가 유입 매출의 수수료를 지급합니다.</p>
+  <p class="sub">매월 말 마감, 익월 10일 정산서 발행, 익월 20일 지급. 해외는 저희가 정산금를 지급하고, 국내는 귀사가 유입 매출의 수수료를 지급합니다.</p>
   <div style="margin-bottom:12px"><select class="inp" id="monthSel" style="width:auto"></select></div>
   <div class="sum" id="settleSum"></div>
-  <div class="sec">해외 · 공급가 지급 (닥터서울 → 귀사)</div>
-  <div class="tbl stmt"><table><thead><tr><th>SKU</th><th>상품</th><th class="num">구매 확정</th><th class="num">판매가 합계</th><th class="num">쇼피 공제</th><th class="num">닥터서울 수수료</th><th class="num">귀사 공급가</th><th class="num">₩ 환산</th></tr></thead><tbody id="settleRows"></tbody></table></div>
+  <div class="sec">해외 · 정산금 지급 (닥터서울 → 귀사)</div>
+  <div class="tbl stmt"><table><thead><tr><th>SKU</th><th>상품</th><th class="num">구매 확정</th><th class="num">판매가 합계</th><th class="num">쇼피 공제</th><th class="num">닥터서울 수수료</th><th class="num">귀사 정산금</th><th class="num">₩ 환산</th></tr></thead><tbody id="settleRows"></tbody></table></div>
   <div class="sec">국내 · 수수료 청구 (귀사 → 닥터서울)</div>
   <div class="tbl stmt"><table><thead><tr><th>항목</th><th class="num">유입 주문</th><th class="num">매출</th><th class="num">수수료 (30%)</th></tr></thead><tbody id="inflowSettleRows"></tbody></table></div>
   <div class="acts" style="margin-top:12px"><button class="btn pri" id="btnStmt">정산서 보기</button><span class="note" style="margin:0;align-self:center">주문번호 단위 명세는 정산서에 포함됩니다. 이의 제기 7영업일.</span></div>
@@ -148,7 +148,7 @@ td.num,th.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-n
 </section>
 
 </div></main>
-<footer class="foot"><div class="wrap"><span>닥터서울 · 대표 박기범 · 사업자등록번호 409-28-94126 · 서울특별시 서초구 반포대로39길 39, 302호</span><span>© 2026 Dr.Seoul · 공급자 대시보드 미리보기 v0.6</span></div></footer>
+<footer class="foot"><div class="wrap"><span>닥터서울 · 대표 박기범 · 사업자등록번호 409-28-94126 · 서울특별시 서초구 반포대로39길 39, 302호</span><span>© 2026 Dr.Seoul · 공급자 대시보드 미리보기 v0.7</span></div></footer>
 <div class="toast" id="toast"></div>
 <div class="modal" id="modal" role="dialog" aria-modal="true"><div class="dlg"><button class="x" id="modalX" aria-label="닫기">×</button><div id="modalBody"></div></div></div>
 
@@ -228,14 +228,14 @@ td.num,th.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-n
     const tq=lines.reduce((a,l)=>a+l.q,0), ts=lines.reduce((a,l)=>a+l.s,0);
     const inM=inflow.filter(r=>monthKey(r.d)===m); const io=inM.reduce((a,r)=>a+r.orders,0), is=inM.reduce((a,r)=>a+r.sales,0);
     const [y,mm]=m.split('-').map(Number); const inv=new Date(y,mm,10), pay=new Date(y,mm,20); const closed=now>new Date(y,mm,1);
-    document.getElementById('settleSum').innerHTML=[[php(ts*BRAND)+' ≈ '+krw(ts*BRAND*FX),`해외 공급가 지급 (${tq}개)`],[krw(is*DS),`국내 수수료 청구 (유입 주문 ${io}건, 매출 ${krw(is)})`],[closed?fmtD(inv):'마감 전','정산서 발행'],[fmtD(pay),'지급일 (양방향)']].map(([v,k])=>`<div class="kpi"><div class="v" style="font-size:17px">${v}</div><div class="k">${k}</div></div>`).join('');
+    document.getElementById('settleSum').innerHTML=[[php(ts*BRAND)+' ≈ '+krw(ts*BRAND*FX),`해외 정산금 지급 (${tq}개)`],[krw(is*DS),`국내 수수료 청구 (유입 주문 ${io}건, 매출 ${krw(is)})`],[closed?fmtD(inv):'마감 전','정산서 발행'],[fmtD(pay),'지급일 (양방향)']].map(([v,k])=>`<div class="kpi"><div class="v" style="font-size:17px">${v}</div><div class="k">${k}</div></div>`).join('');
     document.getElementById('settleRows').innerHTML=lines.map(l=>`<tr><td class="mono">${l.k.id}</td><td>${l.k.name}</td><td class="num">${l.q}</td><td class="num">${php(l.s)}</td><td class="num">−${php(l.s*SHOPEE)}</td><td class="num">−${php(l.s*DS)}</td><td class="num"><b>${php(l.s*BRAND)}</b></td><td class="num"><b>${krw(l.s*BRAND*FX)}</b></td></tr>`).join('')+`<tr><td colspan="2"><b>합계</b></td><td class="num"><b>${tq}</b></td><td class="num"><b>${php(ts)}</b></td><td class="num">−${php(ts*SHOPEE)}</td><td class="num">−${php(ts*DS)}</td><td class="num"><b>${php(ts*BRAND)}</b></td><td class="num"><b>${krw(ts*BRAND*FX)}</b></td></tr>`;
     document.getElementById('inflowSettleRows').innerHTML=`<tr><td>귀사 공식몰 유입 주문 (링크·쿠폰 코드 기준, 취소·환불 제외)</td><td class="num">${io}</td><td class="num">${krw(is)}</td><td class="num"><b>${krw(is*DS)}</b></td></tr>`;
     sel.onchange=renderSettle;
     document.getElementById('btnStmt').onclick=()=>{ const rows=done.slice().sort((a,b)=>a.t-b.t).map(o=>`<tr><td class="mono small">${o.id}</td><td class="small">${fmtD(o.t)}</td><td class="small">${o.sku} × ${o.qty}</td><td class="num small">${php(o.price)}</td><td class="num small">${krw(o.price*BRAND*FX)}</td></tr>`).join('');
       openModal(`<h3>정산서 (예시) · ${m.replace('-','년 ')}월</h3><div class="small muted" style="margin-bottom:10px">발행 ${fmtD(inv)} · 지급 ${fmtD(pay)} · 환율 ₱1 ≈ ₩${FX}</div>
-        <div class="sec" style="margin-top:0">해외 · 공급가 지급</div><div class="stmt" style="max-height:34vh;overflow:auto;border:1px solid var(--line);border-radius:8px"><table><thead><tr><th>주문번호</th><th>구매 확정</th><th>SKU</th><th class="num">판매가</th><th class="num">공급가 ₩</th></tr></thead><tbody>${rows}</tbody></table></div>
-        <div class="small" style="margin-top:8px">합계 ${tq}개 · <b>공급가 ${krw(ts*BRAND*FX)}</b> (닥터서울 → 귀사)</div>
+        <div class="sec" style="margin-top:0">해외 · 정산금 지급</div><div class="stmt" style="max-height:34vh;overflow:auto;border:1px solid var(--line);border-radius:8px"><table><thead><tr><th>주문번호</th><th>구매 확정</th><th>SKU</th><th class="num">판매가</th><th class="num">정산금 ₩</th></tr></thead><tbody>${rows}</tbody></table></div>
+        <div class="small" style="margin-top:8px">합계 ${tq}개 · <b>정산금 ${krw(ts*BRAND*FX)}</b> (닥터서울 → 귀사)</div>
         <div class="sec">국내 · 수수료 청구</div><div class="small">유입 주문 ${io}건 · 매출 ${krw(is)} · <b>수수료 ${krw(is*DS)}</b> (귀사 → 닥터서울)</div>
         <div class="note">세금계산서는 각자 발행합니다. 이의 제기 7영업일.</div>`); };
   }
